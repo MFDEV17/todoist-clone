@@ -1,5 +1,7 @@
 package com.mfdev.api.core.entity.task;
 
+import com.mfdev.api.core.entity.tag.Tag;
+import com.mfdev.api.core.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +14,6 @@ import java.time.Instant;
 import java.util.List;
 
 import static com.mfdev.api.core.entity.task.Priority.P4;
-import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
@@ -22,7 +23,6 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Setter
 @Entity
 public class Task {
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -44,15 +44,10 @@ public class Task {
     @Column(nullable = false)
     private boolean isDone = false;
 
-    @Override
-    public String toString() {
-        return "Task {" +
-                "task='" + task + '\'' +
-                ", description='" + description + '\'' +
-                ", dateCreate=" + dateCreate +
-                ", deadline=" + deadline +
-                ", priority=" + priority +
-                ", isDone=" + isDone +
-                '}';
-    }
+    @ManyToOne
+    @OnDelete(action = CASCADE)
+    private User user;
+
+    @OneToMany
+    private List<Tag> tags;
 }
