@@ -44,10 +44,6 @@ public class Task {
     @Column(nullable = false)
     private boolean isDone = false;
 
-    @OneToMany(fetch = EAGER)
-    @OnDelete(action = CASCADE)
-    private List<Task> subtasks;
-
     @Override
     public String toString() {
         return "Task {" +
