@@ -1,5 +1,6 @@
 package com.mfdev.api.core.entity.task;
 
+import com.mfdev.api.core.entity.project.Project;
 import com.mfdev.api.core.entity.tag.Tag;
 import com.mfdev.api.core.entity.user.User;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.mfdev.api.core.entity.task.Priority.P4;
@@ -35,8 +37,7 @@ public class Task {
     @CreationTimestamp
     private Instant dateCreate;
 
-    @Column(nullable = false)
-    private Instant deadline;
+    private LocalDateTime deadline = Deadline.TODAY.getDate();
 
     @Column(nullable = false)
     private Priority priority = P4;
@@ -47,6 +48,10 @@ public class Task {
     @ManyToOne
     @OnDelete(action = CASCADE)
     private User user;
+
+    @ManyToOne
+    @OnDelete(action = CASCADE)
+    private Project project;
 
     @OneToMany
     private List<Tag> tags;
